@@ -12,7 +12,7 @@ const config = getConfig({
     'uninstall',
     'git'
   ],
-  defaultCommand: 'list'
+  defaultCommand: 'help'
 })
 
 const { command } = config
