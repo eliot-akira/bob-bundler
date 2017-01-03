@@ -9,15 +9,20 @@ export default function install(config) {
 
   const bundles = getBundles(config)
   const rootPackage = getPackageJSON(root)
-  const { dependencies = {}, devDependencies = {} } = rootPackage
+  let { dependencies = {}, devDependencies = {} } = rootPackage
   const installChoices = []
+
+  if (!options.sub) {
+    dependencies = {}
+    devDependencies = {}
+  }
 
   log.title((uninstall ? 'Uninstall' : 'Install'))
 
   bundles.forEach(b => {
 
     // Ignore root bundle
-    if (!relative(b.root)) return
+    if (options.sub && !relative(b.root)) return
 
     const bundle = b.json
     const modules = []

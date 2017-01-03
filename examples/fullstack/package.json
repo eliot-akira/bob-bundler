@@ -34,7 +34,7 @@
       "watch": "src/server/**/*.js"
     },
     "nodemon": {
-      "src": "build/client",
+      "src": "build/server",
       "port": 3000
     }
   }

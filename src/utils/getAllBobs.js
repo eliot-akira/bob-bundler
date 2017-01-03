@@ -21,6 +21,7 @@ export default function getAllBobs(config) {
       && args.indexOf(relativeRoot ? relativeRoot : '.') < 0
     ) return
 
+    // Live reload default
     let {
       livereload = false,
       ...bob
@@ -28,8 +29,9 @@ export default function getAllBobs(config) {
 
     bob = withDefaults(bob)
 
-    if ((bob.static || bob.nodemon)
-      && typeof bob.livereload === 'undefined'
+    if (typeof bob.livereload === 'undefined'
+      && (bob.static || bob.nodemon) // Server
+      && bob.ejs // Ejs is needed for live reload client
     ) livereload = true
 
     Object.keys(bob).forEach(task => {
