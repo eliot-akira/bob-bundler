@@ -27,8 +27,6 @@ npm install bob-bundler -D
 - Watch and compile on file change
 - If using nodemon or static server, live reload browser
 
-
-
 ## Configure
 
 Set `bob` property in `package.json`
@@ -69,6 +67,22 @@ Example configuration
 ```
 
 All tasks are optional. Each task can also be an array.
+
+## Examples
+
+See `/examples` folder in this repo.
+
+`client` - Client only: static site
+
+`server` - Server only
+
+`fullstack` - Site with `express` server
+
+Run the example:
+
+```bash
+npm install && npm start
+```
 
 ## Defaults
 
