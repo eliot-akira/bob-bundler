@@ -1,0 +1,26 @@
+{
+  "name": "bob-example-server",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "bob dev",
+    "build": "bob build"
+  },
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "bob-bundler": "*"
+  },
+  "bob": {
+    "babel": {
+      "src": "src",
+      "dest": "build",
+      "watch": "src/**/*.js"
+    },
+    "nodemon": {
+      "src": "build",
+      "port": 3000
+    }
+  }
+}

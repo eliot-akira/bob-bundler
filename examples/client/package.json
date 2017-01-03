@@ -1,0 +1,33 @@
+{
+  "name": "bob-example-client",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "bob dev",
+    "build": "bob build"
+  },
+  "devDependencies": {
+    "bob-bundler": "*"
+  },
+  "bob": {
+    "browserify": {
+      "src": "src/index.js",
+      "dest": "build/app.js",
+      "watch": "src/**/*.js"
+    },
+    "sass": {
+      "src": "src/index.scss",
+      "dest": "build/app.css",
+      "watch": "src/**/*.scss"
+    },
+    "ejs": {
+      "src": "src/index.html",
+      "dest": "build",
+      "watch": "src/**/*.html"
+    },
+    "static": {
+      "src": "build",
+      "port": 3000
+    }
+  }
+}

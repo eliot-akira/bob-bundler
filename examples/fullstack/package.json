@@ -1,0 +1,41 @@
+{
+  "name": "bob-example-fullstack",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "bob dev",
+    "build": "bob build"
+  },
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "bob-bundler": "*"
+  },
+  "bob": {
+    "browserify": {
+      "src": "src/client/index.js",
+      "dest": "build/client/app.js",
+      "watch": "src/client/**/*.js"
+    },
+    "sass": {
+      "src": "src/client/index.scss",
+      "dest": "build/client/app.css",
+      "watch": "src/client/**/*.scss"
+    },
+    "ejs": {
+      "src": "src/client/index.html",
+      "dest": "build/client",
+      "watch": "src/client/**/*.html"
+    },
+    "babel": {
+      "src": "src/server",
+      "dest": "build/server",
+      "watch": "src/server/**/*.js"
+    },
+    "nodemon": {
+      "src": "build/client",
+      "port": 3000
+    }
+  }
+}
