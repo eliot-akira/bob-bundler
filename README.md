@@ -72,11 +72,9 @@ All tasks are optional. Each task can also be an array.
 
 See `/examples` folder in this repo.
 
-`client` - Client only: static site
-
-`server` - Server only
-
-`fullstack` - Site with `express` server
+- `client` - Client only: static site
+- `server` - Server only
+- `fullstack` - Site with `express` server
 
 Run the example:
 
