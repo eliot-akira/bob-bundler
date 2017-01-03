@@ -1,5 +1,5 @@
 import install from './install'
 
-module.exports = function uninstall(config) {
+export default function uninstall(config) {
   return install({ ...config, uninstall: true })
 }

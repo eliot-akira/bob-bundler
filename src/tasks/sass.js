@@ -7,7 +7,7 @@ import minifyCSS from 'gulp-clean-css'
 import autoprefixer from 'gulp-autoprefixer'
 import $if from 'gulp-if'
 
-module.exports = function sassTask({ src, dest, dev = false, log, relative }) {
+export default function sassTask({ src, dest, dev = false, log, relative }) {
 
   const destDir = path.dirname(dest)
   const destFile = path.basename(dest)
@@ -23,9 +23,10 @@ module.exports = function sassTask({ src, dest, dev = false, log, relative }) {
         //relativeTo: './app',
         processImport: false // ?
       }))
-      .on('error', (e) => {
+      .on('error', function(e) {
         log.error('Sass', e.message)
         this.emit('end')
+        reject()
       })
       .pipe(autoprefixer({ browsers: ['last 2 versions', 'IE 10', '> 1%'], cascade: false }))
       .pipe($if(!dev, minifyCSS()))

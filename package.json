@@ -1,7 +1,7 @@
 {
   "name": "bob-bundler",
-  "version": "0.0.2",
-  "description": "Opinionated bundler of JavaScript projects",
+  "version": "0.1.0",
+  "description": "Bundle HTML, CSS, JS with optional server and live reload",
   "main": "./build/index.js",
   "bin": {
     "bob": "bin/bob"
@@ -17,11 +17,13 @@
     "presets": [
       "es2015",
       "stage-0"
+    ],
+    "plugins": [
+      "add-module-exports"
     ]
   },
-  "author": "",
-  "license": "MIT",
   "dependencies": {
+    "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-stage-0": "^6.5.0",
     "babelify": "^7.3.0",
@@ -33,28 +35,29 @@
     "gulp-babel": "^6.1.2",
     "gulp-bro": "^0.3.1",
     "gulp-clean-css": "^2.0.13",
+    "gulp-ejs": "^2.3.0",
     "gulp-if": "^2.0.2",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
     "gulp-sass": "^2.3.2",
     "gulp-sourcemaps": "^2.2.0",
     "gulp-uglify": "^2.0.0",
     "gulp-watch": "^4.3.10",
     "minimist": "^1.2.0",
+    "node-static": "^0.7.9",
     "nodemon": "^1.11.0",
-    "readline-sync": "^1.4.4"
+    "readline-sync": "^1.4.4",
+    "ws": "^1.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",
     "babel-eslint": "^6.1.2",
     "eslint": "^3.4.0"
   },
-  "unused": {
-    "gulp-ejs": "^2.2.0",
-    "node-static": "^0.7.8",
-    "ws": "^1.1.1"
-  },
+  "author": "Eliot Akira",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eliot-akira/bob-bundler.git"
-  }
+  },
+  "license": "MIT"
 }

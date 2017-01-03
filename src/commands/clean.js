@@ -3,7 +3,7 @@ import chalk from 'chalk'
 import getAllBobs from '../utils/getAllBobs'
 import splitDir from '../utils/splitDir'
 
-module.exports = function clean(config) {
+export default function clean(config) {
 
   const { log, relative, yesno } = config
 
@@ -12,7 +12,6 @@ module.exports = function clean(config) {
   let folders = []
 
   log.title('Clean')
-
 
   Object.keys(bob).forEach(key => {
 
@@ -33,7 +32,7 @@ module.exports = function clean(config) {
 
   const tasks = folders.map(f => emptyDirectory(f))
 
-  return Promise.all(tasks).then(() => log.info('Done'))
+  return Promise.all(tasks).then(() => log.title('Done'))
 }
 
 function emptyDirectory(dir) {

@@ -3,17 +3,25 @@ import browserify from '../tasks/browserify'
 import sass from '../tasks/sass'
 import babel from '../tasks/babel'
 
-const definedTasks = ['browserify', 'sass', 'babel']
+const definedTasks = [
+  'babel',
+  'browserify',
+  'ejs',
+  'nodemon',
+  'sass',
+  'static'
+]
+const noBuild = ['nodemon', 'static']
 
 let tasks = {}
 
-module.exports = function build(config) {
+export default function build(config) {
 
-  const { dev, log, relative } = config
+  const { dev, log, relative, globalIgnore } = config
 
   const allBobs = getAllBobs(config)
 
-  log.title(dev ? 'Dev' : 'Build')
+  log.title('Build')
 
   let allTasks = []
 
@@ -24,14 +32,18 @@ module.exports = function build(config) {
       return process.exit(1)
     }
 
+    if (noBuild.indexOf(key) >= 0) return
+
     if (!tasks[key]) tasks[key] = require(`../tasks/${key}`)
 
     allBobs[key].forEach(bundle =>
       allTasks.push(
-        tasks[key]({ ...bundle, dev, log, relative })
+        tasks[key]({ ...bundle, dev, log, relative, globalIgnore })
       )
     )
   })
 
-  return Promise.all(allTasks).then(() => ({ bob: allBobs, tasks }))
+  return Promise.all(allTasks)
+    .then(() => ({ bob: allBobs, tasks }))
+    .catch(e => log.error(e.message, e.stack))
 }

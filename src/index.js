@@ -5,9 +5,12 @@ const config = getConfig({
     'build',
     'clean',
     'dev',
+    'help',
+    // TODO: Document
     'list',
     'install',
-    'uninstall'
+    'uninstall',
+    'git'
   ],
   defaultCommand: 'list'
 })

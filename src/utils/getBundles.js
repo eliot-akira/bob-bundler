@@ -3,7 +3,7 @@ import glob from 'glob'
 import fileExists from './fileExists'
 import getPackageJSON from './getPackageJSON'
 
-export default function getBundles({ root, log }) {
+export default function getBundles({ root, log, options }) {
 
   let bundles = []
 
@@ -13,7 +13,11 @@ export default function getBundles({ root, log }) {
 
     const packageName = 'package.json'
 
-    const packages = glob.sync(`${thisPath}/**/${packageName}`, {
+    const globPath = options.sub
+      ? `${thisPath}/**/${packageName}` // Include sub folders
+      : `${thisPath}/${packageName}`
+
+    const packages = glob.sync(globPath, {
       ignore: ['**/.git/**', '**/_*/**', `**/node_modules/**`]
     })
 

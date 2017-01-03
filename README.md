@@ -1,7 +1,7 @@
 
 # Bob Bundler
 
-Opinionated bundler of JavaScript projects
+Bundle HTML, CSS, JS with optional server and live reload
 
 ## Install
 
@@ -24,7 +24,10 @@ npm install bob-bundler -D
 #### `bob dev`
 
 - Build all
-- Watch source folder(s) and compile on file change
+- Watch and compile on file change
+- If using nodemon or static server, live reload browser
+
+
 
 ## Configure
 
@@ -42,12 +45,12 @@ Example configuration
   "sass": {
     "src": "src/client/index.scss",
     "dest": "build/client/app.css",
-    "watch": "src/**/*.scss"
+    "watch": "src/client/**/*.scss"
   },
   "ejs": {
     "src": "src/client/index.html",
-    "dest": "build/client/index.html",
-    "watch": "src/**/*.html"
+    "dest": "build/client",
+    "watch": "src/client/**/*.html"
   },
   "babel": {
     "src": "src/server",
@@ -61,16 +64,21 @@ Example configuration
   "static": {
     "src": "build/client",
     "port": "3001"
-  },
-  "lint": {
-    "src": "src/**/*.js"
-  },
-  "test": {
-    "src": "tests/**/*.js"
   }  
 }
 ```
 
-## Babel presets
+All tasks are optional. Each task can also be an array.
 
-Presets `es2015` and `stage-0` are included by default.
+## Defaults
+
+The following are included by default.
+
+### Babel/browserify
+
+- Presets: `es2015` and `stage-0`
+- Plugin: `add-module-exports`
+
+### Sass
+
+- Autoprefixer

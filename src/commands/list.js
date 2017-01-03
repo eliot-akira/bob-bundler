@@ -1,6 +1,6 @@
 import getBundles from '../utils/getBundles'
 
-module.exports = function list(config) {
+export default function list(config) {
 
   const { log, relative } = config
 

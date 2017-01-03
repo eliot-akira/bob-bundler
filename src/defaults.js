@@ -1,5 +1,5 @@
-import withDefaultFile from './withDefaultFile'
-import splitDir from '../utils/splitDir'
+import path from 'path'
+import splitDir from './utils/splitDir'
 
 export default function withDefaults(bob) {
 
@@ -29,8 +29,11 @@ export default function withDefaults(bob) {
         bundle.src = withDefaultFile(bundle.src, 'index.scss')
         bundle.dest = withDefaultFile(bundle.dest, 'app.css')
         bundle.watch = bundle.watch || `${dir}/**/*.scss`
-      } else if (key==='babel') {
-        bundle.watch = bundle.watch || `${dir}/**/*.js`
+      } else if (key==='ejs') {
+        bundle.src = withDefaultFile(bundle.src, 'index.html')
+        bundle.watch = bundle.watch || `${dir}/**/*.html`
+      } else if (['babel', 'nodemon', 'static'].indexOf(key) >= 0) {
+        bundle.watch = bundle.watch || dir
       }
 
       bobWithDefaults[key].push(bundle)
@@ -38,4 +41,13 @@ export default function withDefaults(bob) {
   })
 
   return bobWithDefaults
+}
+
+function withDefaultFile(src, defaultFile) {
+
+  const parts = splitDir(src)
+
+  parts.file = parts.file || defaultFile
+
+  return path.join(parts.dir, parts.file)
 }

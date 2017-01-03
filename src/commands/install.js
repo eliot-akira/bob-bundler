@@ -3,7 +3,7 @@ import { spawnSync } from 'child_process'
 import getBundles from '../utils/getBundles'
 import getPackageJSON from '../utils/getPackageJSON'
 
-module.exports = function install(config) {
+export default function install(config) {
 
   const { root, options, log, relative, yesno, question, uninstall = false } = config
 
@@ -12,7 +12,7 @@ module.exports = function install(config) {
   const { dependencies = {}, devDependencies = {} } = rootPackage
   const installChoices = []
 
-  log.title(uninstall ? 'Uninstall' : 'Install')
+  log.title((uninstall ? 'Uninstall' : 'Install'))
 
   bundles.forEach(b => {
 
@@ -63,6 +63,9 @@ module.exports = function install(config) {
     return log.info(uninstall ? 'Nothing to uninstall' : 'Everything is installed')
   }
 
+  log('')
+
+  // ------------ List choices ------------
 
   installChoices.forEach(({ title, modules, devModules }, index) => {
 
@@ -72,7 +75,6 @@ module.exports = function install(config) {
 
     if (devModules.length) {
       log.info('  dev:')
-      devModules.forEach(c => log(c))
       devModules.forEach(module => log(`  ${module}`))
     }
   })
@@ -83,6 +85,8 @@ module.exports = function install(config) {
     .split(',').map(ans => (ans!=='' && !isNaN(ans)) ? parseInt(ans) : ans)
 
   let allModules = [], allDevModules = []
+
+  // ------------ Gather modules based on answer ------------
 
   answer.forEach(ans => {
 
@@ -112,6 +116,8 @@ module.exports = function install(config) {
       allDevModules.push(m)
     })
   })
+
+  // ------------ Install ------------
 
   if (allModules.length) {
     const args = [

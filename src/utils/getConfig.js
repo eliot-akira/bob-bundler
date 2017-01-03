@@ -1,6 +1,7 @@
 import path from 'path'
 import minimist from 'minimist'
 import readlineSync from 'readline-sync'
+import chalk from 'chalk'
 import logger from './logger'
 
 export default function getConfig({ commands, defaultCommand }) {
@@ -32,7 +33,9 @@ export default function getConfig({ commands, defaultCommand }) {
   const config = {
     root, relative,
     command, options, args,
-    log, yesno, question
+    log, yesno, question,
+    chalk,
+    globalIgnore: ['!**/_*/**', '!**/.git/**', '!**/node_modules/**']
   }
 
   return config

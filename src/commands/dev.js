@@ -1,40 +1,66 @@
 import watch from 'gulp-watch'
 import build from './build'
+import liveReloadServer from '../live-reload/server'
 
-module.exports = function dev(config) {
+export default function dev(config) {
 
   build({ ...config, dev: true })
 
   .then(({ bob, tasks }) => {
 
-    const { log, relative } = config
-    const common = { log, relative }
+    const { log, relative, chalk } = config
+    const common = { log, relative, chalk }
+
+    let reloadServer, reload = () => {}, reloadCSS = () => {}
+
+    log.title('Watch')
 
     Object.keys(bob).forEach(key => {
 
-      // Each task
+      // ------------ Each task ------------
 
       bob[key].forEach(bundle => {
 
-        // Each bundle
+        // ------------ Each bundle ------------
 
         if (!bundle.watch) return
 
-        log(`Watch:${key}`, bundle.watch)
+        log('Watch', `${chalk.green(bundle.watch)} for ${chalk.blue(key)}`)
 
         const watchConfig = { ...bundle, ...common, dev: true }
 
-        if (['browserify', 'sass'].indexOf(key) >= 0) {
+        if (bundle.livereload && !reloadServer) {
+          reloadServer = liveReloadServer(config)
+          reload = reloadServer.reload
+          reloadCSS = reloadServer.reloadCSS
+        }
+
+        if (['browserify', 'ejs', 'sass'].indexOf(key) >= 0) {
 
           // Watch all files, compile from entry on change
-          watch(bundle.watch, () => tasks[key](watchConfig))
+          watch(bundle.watch, () => {
+            tasks[key](watchConfig)
+            .then(() => {
+              if (!bundle.livereload) return
+              if (key==='sass') reloadCSS()
+              else reload()
+            })
+          })
 
         } else if (key==='babel') {
 
           // Watch all files, compile each changed file
           require('../tasks/babelWatch')(watchConfig)
+
+        } else if (['nodemon', 'static'].indexOf(key) >= 0) {
+
+          log.title('Serve')
+
+          require(`../tasks/${key}`)({ ...watchConfig, reload })
         }
       })
     })
+
+    if (reloadServer) log('Live reload', 'Start live-reload server')
   })
 }
