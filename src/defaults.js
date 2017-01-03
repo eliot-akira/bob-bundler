@@ -30,7 +30,7 @@ export default function withDefaults(bob) {
         bundle.dest = withDefaultFile(bundle.dest, 'app.css')
         bundle.watch = bundle.watch || `${dir}/**/*.scss`
       } else if (key==='ejs') {
-        bundle.src = withDefaultFile(bundle.src, 'index.html')
+        bundle.src = withDefaultFile(bundle.src, '**/index.html')
         bundle.watch = bundle.watch || `${dir}/**/*.html`
       } else if (['babel', 'nodemon', 'static'].indexOf(key) >= 0) {
         bundle.watch = bundle.watch || dir

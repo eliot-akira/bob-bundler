@@ -31,7 +31,8 @@ export default function getConfig({ commands, defaultCommand }) {
   const relative = name => path.relative(root, name)
 
   const config = {
-    root, relative,
+    root,
+    relative,
     command, options, args,
     log, yesno, question,
     chalk,

@@ -4,13 +4,15 @@ import gulp from 'gulp'
 import replace from 'gulp-replace'
 import ejs from 'gulp-ejs'
 
-export default function ejsTask({
-  src, dest,
-  dev = true,
-  livereload = false,
-  electron = false,
-  log, relative
-}) {
+export default function ejsTask(config) {
+
+  const {
+    src, dest,
+    dev = true,
+    livereload = false,
+    electron = false,
+    log, relative
+  } = config
 
   const script = injectScript({ dev, livereload, electron })
 
