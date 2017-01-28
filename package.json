@@ -1,6 +1,6 @@
 {
   "name": "bob-bundler",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Bundle HTML, CSS, JS with optional server and live reload",
   "main": "./build/index.js",
   "bin": {
@@ -12,15 +12,6 @@
     "dev": "babel src --watch --out-dir build",
     "clean": "rm -rf build",
     "prepublish": "npm run build"
-  },
-  "babel": {
-    "presets": [
-      "es2015",
-      "stage-0"
-    ],
-    "plugins": [
-      "add-module-exports"
-    ]
   },
   "dependencies": {
     "babel-plugin-add-module-exports": "^0.2.1",

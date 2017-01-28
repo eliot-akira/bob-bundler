@@ -22,12 +22,12 @@ export default function ejsTask(config) {
       .pipe(replace('</body>', `${script}</body>`))
       .pipe(gulp.dest(dest))
       .on('error', function(e) {
-        log.error('EJS', e.message)
+        log.error('ejs', e.message)
         this.emit('end')
         reject()
       })
       .on('end', () => {
-        log('EJS', `${relative(src)} -> ${relative(dest)}`)
+        log('ejs', `${relative(src)} -> ${relative(dest)}`)
         resolve()
       })
   })

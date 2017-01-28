@@ -9,19 +9,17 @@ if (!fileExists(moduleDir)) {
   moduleDir = path.join(__dirname, '../..')
 }
 
-/*// Last try: current working directory
-if (!fileExists(moduleDir)) {
-  moduleDir = path.join(process.cwd(), 'node_modules')
-}*/
-
 const modulePath = m => path.join(moduleDir, m)
 
-export default {
-  presets: [
-    modulePath('babel-preset-es2015'),
-    modulePath('babel-preset-stage-0'),
-  ],
-  plugins: [
-    modulePath('babel-plugin-add-module-exports')
-  ]
+export default function createBabelConfig() {
+  // Will be overwritten if .babelrc exists
+  return {
+    presets: [
+      modulePath('babel-preset-es2015'),
+      modulePath('babel-preset-stage-0'),
+    ],
+    plugins: [
+      modulePath('babel-plugin-add-module-exports')
+    ]
+  }
 }

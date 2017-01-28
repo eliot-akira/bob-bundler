@@ -7,8 +7,9 @@ import minifyCSS from 'gulp-clean-css'
 import autoprefixer from 'gulp-autoprefixer'
 import $if from 'gulp-if'
 
-export default function sassTask({ src, dest, dev = false, log, relative }) {
+export default function sassTask({ src, dest, root, dev = false, log, relative }) {
 
+  const rootSrc = path.join(root, 'src')
   const destDir = path.dirname(dest)
   const destFile = path.basename(dest)
 
@@ -18,13 +19,13 @@ export default function sassTask({ src, dest, dev = false, log, relative }) {
       .pipe($if(dev, sourcemaps.init()))
       .pipe(sass({
         keepSpecialComments: false,
-        // Resolve require paths for client and shared lib
-        //includePaths: [`${src}/lib`, `${src}/shared`, `${root}/shared`],
+        // Resolve require paths for client source
+        includePaths: [rootSrc],
         //relativeTo: './app',
         processImport: false // ?
       }))
       .on('error', function(e) {
-        log.error('Sass', e.message)
+        log.error('sass', e.message)
         this.emit('end')
         reject()
       })
@@ -34,7 +35,7 @@ export default function sassTask({ src, dest, dev = false, log, relative }) {
       .pipe($if(dev, sourcemaps.write()))
       .pipe(gulp.dest(destDir))
       .on('end', () => {
-        log('Sass', `${relative(src)} -> ${relative(dest)}`)
+        log('sass', `${relative(src)} -> ${relative(dest)}`)
         resolve()
       })
   })

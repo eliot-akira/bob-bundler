@@ -5,10 +5,11 @@ import rename from 'gulp-rename'
 import babelify from 'babelify'
 import uglify from 'gulp-uglify'
 import $if from 'gulp-if'
-import babelConfig from '../babel.config'
+import createBabelConfig from '../createBabelConfig'
 
-export default function browserifyTask({ src, dest, dev = false, log, relative }) {
+export default function browserifyTask({ src, dest, root, dev = false, log, relative }) {
 
+  const rootSrc = path.join(root, 'src')
   const destDir = path.dirname(dest)
   const destFile = path.basename(dest)
 
@@ -18,21 +19,22 @@ export default function browserifyTask({ src, dest, dev = false, log, relative }
       .pipe(browserify({
         debug: dev, // Source maps
         transform: [
-          babelify.configure(babelConfig)
+          babelify.configure(createBabelConfig())
         ],
-        // Resolve require paths for client and shared lib
-        //paths: [`${src}/lib`, `${src}/shared`, `${root}/shared`]
+        // Resolve require paths for client source
+        // For server-side babel, define NODE_PATH
+        paths: [rootSrc]
       }))
       .pipe($if(!dev, uglify()))
       .pipe(rename(destFile))
       .pipe(gulp.dest(destDir))
       .on('error', function(e) {
-        log.error('Browserify', e.message)
+        log.error('browserify', e.message)
         this.emit('end')
         reject()
       })
       .on('end', () => {
-        log('Browserify', `${relative(src)} -> ${relative(dest)}`)
+        log('browserify', `${relative(src)} -> ${relative(dest)}`)
         resolve()
       })
   })

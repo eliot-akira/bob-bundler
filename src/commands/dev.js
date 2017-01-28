@@ -13,7 +13,7 @@ export default function dev(config) {
 
     let reloadServer, reload = () => {}, reloadCSS = () => {}
 
-    log.title('Watch')
+    log.title('Watching..')
 
     Object.keys(bob).forEach(key => {
 
@@ -23,11 +23,12 @@ export default function dev(config) {
 
         // ------------ Each bundle ------------
 
-        if (!bundle.watch) return
+        if (bundle.watch) log('Watch', `${chalk.green(bundle.watch)} for ${chalk.blue(key)}`)
 
-        log('Watch', `${chalk.green(bundle.watch)} for ${chalk.blue(key)}`)
-
-        const watchConfig = { ...bundle, ...common, dev: true }
+        const watchConfig = {
+          ...bundle, ...common, dev: true,
+          watch: bundle.watch //&& bundle.watch.split(',')
+        }
 
         if (bundle.livereload && !reloadServer) {
           reloadServer = liveReloadServer(config)
@@ -38,7 +39,7 @@ export default function dev(config) {
         if (['browserify', 'ejs', 'sass'].indexOf(key) >= 0) {
 
           // Watch all files, compile from entry on change
-          watch(bundle.watch, () => {
+          watch(watchConfig.watch, () => {
             tasks[key](watchConfig)
             .then(() => {
               if (!bundle.livereload) return

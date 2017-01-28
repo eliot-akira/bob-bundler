@@ -72,9 +72,11 @@ All tasks are optional. Each task can also be an array.
 
 See `/examples` folder in this repo.
 
-- `client` - Client only: static site
+- `client` - Static site
+- `client-react` - Static site with React
 - `server` - Server only
 - `fullstack` - Site with `express` server
+- `fullstack-react` - **TODO:** React with server-side rendering
 
 Run the example:
 

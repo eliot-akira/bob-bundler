@@ -1,15 +1,15 @@
 import nodemon from 'nodemon'
+import chalk from 'chalk'
 
 export default function startNodemon({ src, watch, port = 3000, log, relative, reload }) {
 
-  log('Nodemon', `Serve from ${relative(src)}`)
-  log('Type `rs` and enter to restart server')
+  log('nodemon', `Serve from ${relative(src)}: type ${chalk.green('rs')} and enter to restart`)
 
   // Doesn't return promise because it never stops
 
   nodemon({
     script: src,
-    watch: src,
+    watch: watch,
     ignore: ['.git', 'node_modules'],
     args: [`--port="${port}"`],
     //env: {'NODE_ENV': 'development'},
@@ -17,12 +17,12 @@ export default function startNodemon({ src, watch, port = 3000, log, relative, r
   })
   //.on('error', (e) => { log.error(e.stack) })
   .on('error', function(e) {
-    log.error('Nodemon', e.message)
+    log.error('nodemon', e.message)
     this.emit('end')
   })
   .on('restart', () => {
-    log('Nodemon', 'Restart')
-    if (reload) setTimeout(reload, 500)
+    log('nodemon', 'Restart')
+    //if (reload) setTimeout(reload, 500)
   })
   //.on('exit', () => {})
 

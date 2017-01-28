@@ -44,6 +44,10 @@ export default function getAllBobs(config) {
           if (!b[key]) return
           b[key] = path.join(relativeRoot, b[key])
         })
+
+        // Root path to resolve requires for browserify, babel and sass
+        b.root = root
+        // Each bundle can set livereload off
         b.livereload = typeof b.livereload !== 'undefined'
           ? b.livereload
           : livereload

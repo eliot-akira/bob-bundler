@@ -24,16 +24,20 @@ export default function withDefaults(bob) {
       if (key==='browserify') {
         bundle.src = withDefaultFile(bundle.src, 'index.js')
         bundle.dest = withDefaultFile(bundle.dest, 'app.js')
-        bundle.watch = bundle.watch || `${dir}/**/*.js`
+        if (typeof bundle.watch === 'undefined')
+          bundle.watch = `${dir}/**/*.js`
       } else if (key==='sass') {
         bundle.src = withDefaultFile(bundle.src, 'index.scss')
         bundle.dest = withDefaultFile(bundle.dest, 'app.css')
-        bundle.watch = bundle.watch || `${dir}/**/*.scss`
+        if (typeof bundle.watch === 'undefined')
+          bundle.watch = `${dir}/**/*.scss`
       } else if (key==='ejs') {
         bundle.src = withDefaultFile(bundle.src, '**/index.html')
-        bundle.watch = bundle.watch || `${dir}/**/*.html`
+        if (typeof bundle.watch === 'undefined')
+          bundle.watch = `${dir}/**/*.html`
       } else if (['babel', 'nodemon', 'static'].indexOf(key) >= 0) {
-        bundle.watch = bundle.watch || dir
+        if (typeof bundle.watch === 'undefined')
+          bundle.watch = dir
       }
 
       bobWithDefaults[key].push(bundle)
