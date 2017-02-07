@@ -35,6 +35,9 @@ export default function withDefaults(bob) {
         bundle.src = withDefaultFile(bundle.src, '**/index.html')
         if (typeof bundle.watch === 'undefined')
           bundle.watch = `${dir}/**/*.html`
+      } else if (key==='copy') {
+        //if (typeof bundle.watch === 'undefined')
+        //  bundle.watch = `${dir}/**/*`
       } else if (['babel', 'nodemon', 'static'].indexOf(key) >= 0) {
         if (typeof bundle.watch === 'undefined')
           bundle.watch = dir

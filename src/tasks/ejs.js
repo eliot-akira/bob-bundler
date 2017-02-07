@@ -3,6 +3,7 @@ import path from 'path'
 import gulp from 'gulp'
 import replace from 'gulp-replace'
 import ejs from 'gulp-ejs'
+import fileExists from '../utils/fileExists'
 
 export default function ejsTask(config) {
 
@@ -14,10 +15,17 @@ export default function ejsTask(config) {
     log, relative
   } = config
 
+  if (!fileExists(src)) {
+    log.error('ejs', `File doesn't exist: ${src}`)
+    return Promise.resolve()
+  }
+
   const script = injectScript({ dev, livereload, electron })
 
   return new Promise(function(resolve, reject) {
-    gulp.src(`${src}`)
+    gulp.src(`${src}`, {
+      allowEmpty: true
+    })
       .pipe(ejs({}, { ext: '.html' }))
       .pipe(replace('</body>', `${script}</body>`))
       .pipe(gulp.dest(dest))

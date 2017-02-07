@@ -5,9 +5,18 @@ import getPackageJSON from '../utils/getPackageJSON'
 
 export default function install(config) {
 
-  const { root, options, log, relative, yesno, question, uninstall = false } = config
+  const { root, log, relative, yesno, question, uninstall = false } = config
 
-  const bundles = getBundles(config)
+  let { options } = config
+
+  options.sub = options.sub || true
+  /*options.all = typeof options.all!=='undefined'
+    ? options.all : !options.dev*/
+
+  const bundles = getBundles({
+    ...config,
+    options
+  })
   const rootPackage = getPackageJSON(root)
   let { dependencies = {}, devDependencies = {} } = rootPackage
   const installChoices = []
@@ -46,7 +55,7 @@ export default function install(config) {
 
     // ------------ Dev dependencies ------------
     if (options.all || options.dev) {
-      Object.keys(bundle.devDependencies).forEach(dep => {
+      Object.keys(bundle.devDependencies || {}).forEach(dep => {
 
         if ((uninstall && !devDependencies[dep])
           || (!uninstall && devDependencies[dep])
@@ -59,7 +68,10 @@ export default function install(config) {
     if (!modules.length && !devModules.length) return
 
     installChoices.push( {
-      title: relative(b.root),
+      title: (b.json.description
+        ? `${chalk.green(b.json.description)}\n    ${relative(b.root)}`
+        : chalk.green(relative(b.root))
+      ),
       modules, devModules
     })
   })
@@ -79,12 +91,12 @@ export default function install(config) {
     modules.forEach(module => log(`  ${module}`))
 
     if (devModules.length) {
-      log.info('  dev:')
+      log.info('    dev:')
       devModules.forEach(module => log(`  ${module}`))
     }
   })
 
-  log.info(`\n[${ chalk.green("0") }] All, [${ chalk.green("Enter") }] Cancel, Multiple: 1,2,3\n`)
+  log.info(`\n[${ chalk.green("a") }] All, [${ chalk.green("Enter") }] Cancel, [${ chalk.green("1,2,3") }] Multiple\n`)
 
   const answer = question(`Select modules to ${uninstall ? 'uninstall' : 'install'}: `)
     .split(',').map(ans => (ans!=='' && !isNaN(ans)) ? parseInt(ans) : ans)
@@ -100,7 +112,7 @@ export default function install(config) {
     let pushModules = [], pushDevModules = []
 
     // All
-    if (ans===0) {
+    if (ans==='a') {
       installChoices.forEach(({ modules, devModules }) => {
         pushModules.push(...modules)
         pushDevModules.push(...devModules)

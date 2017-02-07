@@ -55,6 +55,11 @@ Example configuration
     "dest": "build/server",
     "watch": "src/server/**/*.js"
   },
+  "copy": {
+    "src": "assets/**",
+    "dest": "build/client",
+    "watch": "assets/**"
+  },
   "nodemon": {
     "src": "build/server",
     "port": "3000"

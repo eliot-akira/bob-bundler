@@ -9,6 +9,7 @@ const definedTasks = [
   'ejs',
   'nodemon',
   'sass',
+  'copy',
   'static'
 ]
 const noBuild = ['nodemon', 'static']

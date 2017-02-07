@@ -46,12 +46,18 @@ export default function dev(config) {
               if (key==='sass') reloadCSS()
               else reload()
             })
+            .catch(e => {})
           })
 
         } else if (key==='babel') {
 
           // Watch all files, compile each changed file
           require('../tasks/babelWatch')(watchConfig)
+
+        } else if (key==='copy') {
+
+          // Watch all files, copy each changed file
+          require('../tasks/copyWatch')(watchConfig)
 
         } else if (['nodemon', 'static'].indexOf(key) >= 0) {
 
@@ -62,6 +68,7 @@ export default function dev(config) {
       })
     })
 
-    if (reloadServer) log('Live reload', 'Start live-reload server')
+    if (reloadServer) log('Live-reload server started')
   })
+  .catch(e => console.error(e))
 }

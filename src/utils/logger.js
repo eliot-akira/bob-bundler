@@ -19,8 +19,7 @@ export default function createLogger(options) {
   }
 
   log.error = (name, ...args) => {
-    console.error(chalk.red(name))
-    if (args.length) console.log(...args)
+    console.error(`  ${chalk.red(name)}`, ...args)
   }
 
   return log

@@ -6,6 +6,7 @@ import sourcemaps from 'gulp-sourcemaps'
 import minifyCSS from 'gulp-clean-css'
 import autoprefixer from 'gulp-autoprefixer'
 import $if from 'gulp-if'
+import fileExists from '../utils/fileExists'
 
 export default function sassTask({ src, dest, root, dev = false, log, relative }) {
 
@@ -13,9 +14,16 @@ export default function sassTask({ src, dest, root, dev = false, log, relative }
   const destDir = path.dirname(dest)
   const destFile = path.basename(dest)
 
+  if (!fileExists(src)) {
+    log.error('sass', `File doesn't exist: ${src}`)
+    return Promise.resolve()
+  }
+
   return new Promise((resolve, reject) => {
 
-    gulp.src(src)
+    gulp.src(src, {
+      allowEmpty: true
+    })
       .pipe($if(dev, sourcemaps.init()))
       .pipe(sass({
         keepSpecialComments: false,

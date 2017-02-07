@@ -12,14 +12,18 @@ if (!fileExists(moduleDir)) {
 const modulePath = m => path.join(moduleDir, m)
 
 export default function createBabelConfig() {
-  // Will be overwritten if .babelrc exists
   return {
     presets: [
       modulePath('babel-preset-es2015'),
       modulePath('babel-preset-stage-0'),
     ],
     plugins: [
-      modulePath('babel-plugin-add-module-exports')
-    ]
+      modulePath('babel-plugin-add-module-exports'),
+      [modulePath("babel-plugin-transform-runtime"), {
+        "polyfill": false,
+        "regenerator": true
+      }]
+    ],
+    //babelrc: false // Load .babelrc manually..?
   }
 }
