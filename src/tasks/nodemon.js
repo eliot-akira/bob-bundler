@@ -1,4 +1,4 @@
-import nodemon from 'nodemon'
+import gnodemon from '../utils/gnodemon'
 import chalk from 'chalk'
 
 export default function startNodemon({ src, watch, port = 3000, log, relative, reload }) {
@@ -7,7 +7,7 @@ export default function startNodemon({ src, watch, port = 3000, log, relative, r
 
   // Doesn't return promise because it never stops
 
-  nodemon({
+  gnodemon({
     script: src,
     watch: watch,
     ignore: ['.git', 'node_modules'],
