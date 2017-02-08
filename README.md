@@ -96,8 +96,10 @@ The following are included by default.
 ### Babel/browserify
 
 - Presets: `es2015` and `stage-0`
-- Plugin: `add-module-exports`
+- Plugins
+  - `add-module-exports` - support direct `require` from `export default`
+  - `transform-runtime` - async/await support
 
 ### Sass
 
-- Autoprefixer
+- Autoprefixer - Last two browser versions
