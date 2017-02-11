@@ -24,6 +24,7 @@ export default function createBabelConfig() {
         "regenerator": true
       }]
     ],
+    //extends // <-- Get from config
     //babelrc: false // Load .babelrc manually..?
   }
 }

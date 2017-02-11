@@ -10,8 +10,8 @@ import fileExists from '../utils/fileExists'
 
 export default function browserifyTask({ src, dest, root, dev = false, log, relative }) {
 
-  //const rootSrc = path.join(root, 'src')
-  const srcDir = path.dirname(src)
+  const rootSrc = path.join(root, process.env.NODE_PATH || 'src')
+  //const srcDir = path.dirname(src)
   const destDir = path.dirname(dest)
   const destFile = path.basename(dest)
 
@@ -33,7 +33,7 @@ export default function browserifyTask({ src, dest, root, dev = false, log, rela
         ],
         // Resolve require paths for client source
         // For server-side babel, define NODE_PATH
-        paths: [srcDir]
+        paths: [rootSrc]
       }))
       .pipe($if(!dev, uglify()))
       .pipe(rename(destFile))
