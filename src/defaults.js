@@ -31,7 +31,7 @@ export default function withDefaults(bob) {
         bundle.dest = withDefaultFile(bundle.dest, 'app.css')
         if (typeof bundle.watch === 'undefined')
           bundle.watch = `${dir}/**/*.scss`
-      } else if (key==='ejs') {
+      } else if (key==='html') {
         bundle.src = withDefaultFile(bundle.src, '**/index.html')
         if (typeof bundle.watch === 'undefined')
           bundle.watch = `${dir}/**/*.html`

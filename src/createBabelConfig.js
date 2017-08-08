@@ -1,3 +1,4 @@
+import fs from 'fs'
 import path from 'path'
 import fileExists from './utils/fileExists'
 
@@ -11,20 +12,30 @@ if (!fileExists(moduleDir)) {
 
 const modulePath = m => path.join(moduleDir, m)
 
-export default function createBabelConfig() {
-  return {
+export default function createBabelConfig(config = {}) {
+  const babelConfig = {
     presets: [
       modulePath('babel-preset-es2015'),
       modulePath('babel-preset-stage-0'),
     ],
     plugins: [
+      modulePath('babel-plugin-react-require'),
       modulePath('babel-plugin-add-module-exports'),
+      //modulePath('babel-plugin-transform-runtime'),
       [modulePath("babel-plugin-transform-runtime"), {
         "polyfill": false,
         "regenerator": true
+      }],
+      [modulePath('babel-plugin-module-resolver'), {
+        root: ['.'],
+        alias: config.alias || {},
+        ...(config.resolve || {})
       }]
     ],
     //extends // <-- Get from config
     //babelrc: false // Load .babelrc manually..?
   }
+
+  //console.log(JSON.stringify(babelConfig, null, 2))
+  return babelConfig
 }

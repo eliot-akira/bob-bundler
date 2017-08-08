@@ -6,7 +6,7 @@ import babel from '../tasks/babel'
 const definedTasks = [
   'babel',
   'browserify',
-  'ejs',
+  'html',
   'nodemon',
   'sass',
   'copy',

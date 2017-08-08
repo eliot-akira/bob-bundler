@@ -6,7 +6,9 @@ import $if from 'gulp-if'
 import createBabelConfig from '../createBabelConfig'
 //import reloadAfterNodemon from '../utils/reloadAfterNodemon'
 
-export default function babelWatch({ src, dest, root, dev, log, relative, globalIgnore = [] }) {
+export default function babelWatch(config) {
+
+  const { src, dest, root, dev, log, relative, globalIgnore = [] } = config
 
   // For server-side render to resolve client require
   process.env.NODE_PATH = process.env.NODE_PATH || dest
@@ -17,7 +19,7 @@ export default function babelWatch({ src, dest, root, dev, log, relative, global
     .on('change', (filePath) => {
       return gulp.src(filePath, { base: src })
         .pipe($if(dev, sourcemaps.init()))
-        .pipe(babel(createBabelConfig()))
+        .pipe(babel(createBabelConfig(config)))
         .on('error', function(e) {
           log.error('babel', e.message)
           this.emit('end')

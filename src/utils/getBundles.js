@@ -22,6 +22,7 @@ export default function getBundles({ root, log, options }) {
     })
 
     packages.forEach(packagePath => {
+
       const root = path.dirname(packagePath)
       const bundle = {
         root,
@@ -33,7 +34,7 @@ export default function getBundles({ root, log, options }) {
   })
 
   if (!bundles.length) {
-    log.error('No projects found')
+    log.error('No projects found', paths)
     return process.exit(1)
   }
 

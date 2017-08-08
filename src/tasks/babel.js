@@ -5,12 +5,14 @@ import sourcemaps from 'gulp-sourcemaps'
 import $if from 'gulp-if'
 import createBabelConfig from '../createBabelConfig'
 
-export default function babelTask({ src, dest, root, dev, log, relative, globalIgnore = [] }) {
+export default function babelTask(config) {
+
+  const { src, dest, root, dev, log, relative, globalIgnore = [] } = config
 
   return new Promise((resolve, reject) => {
     gulp.src([`${src}/**/*.js`].concat(globalIgnore))
       .pipe($if(dev, sourcemaps.init()))
-      .pipe(babel(createBabelConfig()))
+      .pipe(babel(createBabelConfig(config)))
       .on('error', function(e) {
         log.error('babel', e.message)
         this.emit('end')

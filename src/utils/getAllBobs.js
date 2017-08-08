@@ -11,8 +11,6 @@ export default function getAllBobs(config) {
 
   bundles.forEach(bundle => {
 
-    if (!bundle.json || !bundle.json.bob) return
-
     const root = bundle.root
     const relativeRoot = relative(root)
 
@@ -21,17 +19,20 @@ export default function getAllBobs(config) {
       && args.indexOf(relativeRoot ? relativeRoot : '.') < 0
     ) return
 
+    if (!bundle.json || !bundle.json.bob) return
+
     // Live reload default
     let {
       livereload = false,
       ...bob
     } = bundle.json.bob
 
+
     bob = withDefaults(bob)
 
     if (typeof bob.livereload === 'undefined'
       && (bob.static || bob.nodemon) // Server
-      && bob.ejs // Ejs is needed for live reload client
+      && bob.html // HTML is needed for live reload client
     ) livereload = true
 
     Object.keys(bob).forEach(task => {

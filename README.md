@@ -45,7 +45,7 @@ Example configuration
     "dest": "build/client/app.css",
     "watch": "src/client/**/*.scss"
   },
-  "ejs": {
+  "html": {
     "src": "src/client/index.html",
     "dest": "build/client",
     "watch": "src/client/**/*.html"

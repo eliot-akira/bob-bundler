@@ -8,7 +8,9 @@ import $if from 'gulp-if'
 import createBabelConfig from '../createBabelConfig'
 import fileExists from '../utils/fileExists'
 
-export default function browserifyTask({ src, dest, root, dev = false, log, relative }) {
+export default function browserifyTask(config) {
+
+  const { src, dest, root, dev = false, log, relative } = config
 
   const rootSrc = path.join(root, process.env.NODE_PATH || 'src')
   //const srcDir = path.dirname(src)
@@ -29,7 +31,7 @@ export default function browserifyTask({ src, dest, root, dev = false, log, rela
       .pipe(browserify({
         debug: dev, // Source maps
         transform: [
-          babelify.configure(createBabelConfig())
+          babelify.configure(createBabelConfig(config))
         ],
         // Resolve require paths for client source
         // For server-side babel, define NODE_PATH

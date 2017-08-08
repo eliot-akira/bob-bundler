@@ -20,7 +20,7 @@
       "dest": "build/app.css",
       "watch": "src/**/*.scss"
     },
-    "ejs": {
+    "html": {
       "src": "src/index.html",
       "dest": "build",
       "watch": "src/**/*.html"

@@ -36,7 +36,7 @@ export default function dev(config) {
           reloadCSS = reloadServer.reloadCSS
         }
 
-        if (['browserify', 'ejs', 'sass'].indexOf(key) >= 0) {
+        if (['browserify', 'html', 'sass'].indexOf(key) >= 0) {
 
           // Watch all files, compile from entry on change
           watch(watchConfig.watch, () => {

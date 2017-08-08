@@ -14,5 +14,5 @@ export default function({ src, port = 3000, dev = false, log, relative, chalk })
     req.addListener('end', () => staticServer.serve(req, res)).resume()
   }).listen(port)
 
-  log('static', `Serving at ${chalk.green('localhost:'+port)} from ${relative(src)}`)
+  log('static', `Serving at ${chalk.green('http://localhost:'+port)} from ${relative(src)}`)
 }
