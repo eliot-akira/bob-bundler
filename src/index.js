@@ -17,4 +17,8 @@ const config = getConfig({
 
 const { command } = config
 
-require(`./commands/${command}`)(config)
+try {
+  require(`./commands/${command}`)(config)  
+} catch (e) {
+  console.error(e)
+}

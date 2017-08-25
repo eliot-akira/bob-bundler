@@ -1,6 +1,6 @@
 {
   "name": "bob-bundler",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Bundle HTML, CSS, JS with optional server and live reload",
   "main": "./build/index.js",
   "bin": {

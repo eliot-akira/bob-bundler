@@ -10,7 +10,11 @@ export default function getPackageJSON(root) {
   try {
     let json = {}
     if (fileExists(packagePath)) {
-      json = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+      try {
+        json = JSON.parse(fs.readFileSync(packagePath, 'utf8'))
+      } catch (e) {
+        //
+      }
     }
     if (fileExists(bobConfigPath)) {
       json.bob = require(bobConfigPath)()

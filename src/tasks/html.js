@@ -39,7 +39,7 @@ export default function htmlTask(config) {
     })
       .pipe(ejt({ ext: '.html', srcRoot }))
       .on('error', function(e) {
-        log.error('html', e.message)
+        log.error('html', e)
         this.emit('end')
         resolve()
         //reject()

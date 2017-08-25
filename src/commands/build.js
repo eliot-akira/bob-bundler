@@ -22,7 +22,7 @@ export default function build(config) {
 
   const allBobs = getAllBobs(config)
 
-  log.title('Build')
+  log.title('Build') //, allBobs
 
   let allTasks = []
 
@@ -46,5 +46,5 @@ export default function build(config) {
 
   return Promise.all(allTasks)
     .then(() => ({ bob: allBobs, tasks }))
-    .catch(e => log.error(e.message, e.stack))
+    .catch(e => log.error(e))
 }

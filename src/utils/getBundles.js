@@ -18,8 +18,14 @@ export default function getBundles({ root, log, options }) {
       : `${thisPath}/${packageName}`
 
     const packages = glob.sync(globPath, {
-      ignore: ['**/.git/**', '**/_*/**', `**/node_modules/**`]
+      ignore: ['**/.git/**',
+        //'**/_*/**',
+        `**/node_modules/**`]
     })
+
+    if (!packages.length && !options.sub) {
+      packages.push(thisPath)
+    }
 
     packages.forEach(packagePath => {
 
