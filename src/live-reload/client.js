@@ -1,6 +1,8 @@
 
 // Live-reload client
 
+(function() {
+
 let ws
 
 function connectSocket() {
@@ -23,15 +25,16 @@ function refreshCSS() {
   for (let i = 0; i < sheets.length; i++) {
     let elem = sheets[i]
     const rel = elem.rel
-    const reloadThis = elem.href && elem.href.substring(0, 5) !== 'data:' && (
-      typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet"
-    )
-    if (reloadThis) {
-      const url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, "")
-      console.log('[Reload CSS]', url)
-      elem.href = url + ( url.indexOf("?") >= 0 ? "&" : "?" )
-        + "_cacheOverride=" + (new Date().valueOf())
-    }
+    const reloadThis = elem.href
+      && elem.href.substring(0, 5) !== 'data:'
+      && (
+        typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet"
+      )
+    if (!reloadThis) continue
+    const url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, "")
+    console.log('[Reload CSS]', url)
+    elem.href = url + ( url.indexOf("?") >= 0 ? "&" : "?" )
+      + "_cacheOverride=" + (new Date().valueOf())
   }
 }
 
@@ -47,3 +50,5 @@ function trySocket() {
 }
 
 trySocket()
+
+})()
