@@ -3,12 +3,16 @@ import gulp from 'gulp'
 import babel from 'gulp-babel'
 import sourcemaps from 'gulp-sourcemaps'
 import $if from 'gulp-if'
-import createBabelConfig from '../createBabelConfig'
+import createBabelConfig from '../babel/config'
 //import reloadAfterNodemon from '../utils/reloadAfterNodemon'
 
 export default function babelWatch(config) {
 
-  const { src, dest, root, dev, log, relative, globalIgnore = [] } = config
+  const {
+    src, dest, root, dev = false,
+    log, relative, chalk,
+    globalIgnore = []
+  } = config
 
   // For server-side render to resolve client require
   process.env.NODE_PATH = process.env.NODE_PATH || dest
@@ -27,8 +31,7 @@ export default function babelWatch(config) {
         .pipe($if(dev, sourcemaps.write()))
         .pipe(gulp.dest(dest))
         .on('end', () => {
-          //log('Babel', relative(filePath))
-          log('babel', `${relative(filePath)} -> ${relative(dest)}`)
+          log('babel', `${relative(filePath)} -> ${chalk.green(relative(dest))}`)
           // Reload client
           //reloadAfterNodemon()
         })

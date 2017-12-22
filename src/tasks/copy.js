@@ -1,7 +1,11 @@
 import path from 'path'
 import gulp from 'gulp'
 
-export default function copyTask({ src, dest, root, dev, log, relative, globalIgnore = [] }) {
+export default function copyTask({
+  src, dest, root, dev,
+  log, relative, chalk,
+  globalIgnore = []
+}) {
 
   return new Promise((resolve, reject) => {
     gulp.src([src].concat(globalIgnore))
@@ -12,7 +16,7 @@ export default function copyTask({ src, dest, root, dev, log, relative, globalIg
       })
       .pipe(gulp.dest(dest))
       .on('end', () => {
-        log('copy', `${relative(src)} -> ${relative(dest)}`)
+        log('copy', `${relative(src)} -> ${chalk.green(relative(dest))}`)
         resolve()
       })
   })

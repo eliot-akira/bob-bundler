@@ -30,10 +30,10 @@ export default function getAllBobs(config) {
 
     bob = withDefaults(bob)
 
-    if (typeof bob.livereload === 'undefined'
+    if (bob.reload || (typeof bob.livereload === 'undefined'
       && (bob.static || bob.nodemon) // Server
       && bob.html // HTML is needed for live reload client
-    ) livereload = true
+    )) livereload = true
 
     Object.keys(bob).forEach(task => {
 
@@ -42,7 +42,7 @@ export default function getAllBobs(config) {
       bob[task].forEach(b => {
         // Append relative root to these keys
         ['src', 'dest', 'watch'].forEach(key => {
-          if (!b[key]) return
+          if (!b[key] || typeof b[key]!=='string') return
           b[key] = path.join(relativeRoot, b[key])
         })
 

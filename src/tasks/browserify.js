@@ -5,15 +5,17 @@ import rename from 'gulp-rename'
 import babelify from 'babelify'
 import uglify from 'gulp-uglify'
 import $if from 'gulp-if'
-import createBabelConfig from '../createBabelConfig'
+import createBabelConfig from '../babel/config'
 import fileExists from '../utils/fileExists'
 
 export default function browserifyTask(config) {
 
-  const { src, dest, root, dev = false, log, relative } = config
+  const {
+    src, dest, root, dev = false,
+    log, relative, chalk
+  } = config
 
-  const rootSrc = path.join(root, process.env.NODE_PATH || 'src')
-  //const srcDir = path.dirname(src)
+  const srcDir = path.dirname(src)
   const destDir = path.dirname(dest)
   const destFile = path.basename(dest)
 
@@ -35,7 +37,7 @@ export default function browserifyTask(config) {
         ],
         // Resolve require paths for client source
         // For server-side babel, define NODE_PATH
-        paths: [rootSrc]
+        paths: [path.resolve(srcDir)]
       }))
       .pipe($if(!dev, uglify()))
       .pipe(rename(destFile))
@@ -46,7 +48,7 @@ export default function browserifyTask(config) {
         reject()
       })
       .on('end', () => {
-        log('browserify', `${relative(src)} -> ${relative(dest)}`)
+        log('browserify', `${relative(src)} -> ${chalk.green(relative(dest))}`)
         resolve()
       })
   })

@@ -1,13 +1,13 @@
 import fs from 'fs'
 import path from 'path'
-import fileExists from './utils/fileExists'
+import fileExists from '../utils/fileExists'
 
 // Installed inside, i.e., via npm link
-let moduleDir = path.join(__dirname, '../node_modules')
+let moduleDir = path.join(__dirname, '../../node_modules')
 
-// Installed as devDependency
-if (!fileExists(moduleDir)) {
-  moduleDir = path.join(__dirname, '../..')
+// Test if installed as devDependency
+if (!fileExists(path.join(moduleDir, 'babel-preset-es2015'))) {
+  moduleDir = path.join(__dirname, '../../..')
 }
 
 const modulePath = m => path.join(moduleDir, m)
@@ -17,8 +17,10 @@ export default function createBabelConfig(config = {}) {
     presets: [
       modulePath('babel-preset-es2015'),
       modulePath('babel-preset-stage-0'),
+      modulePath('babel-preset-react'),
     ],
     plugins: [
+      modulePath('babel-plugin-transform-node-env-inline'),
       modulePath('babel-plugin-react-require'),
       modulePath('babel-plugin-add-module-exports'),
       //modulePath('babel-plugin-transform-runtime'),
@@ -26,8 +28,11 @@ export default function createBabelConfig(config = {}) {
         "polyfill": false,
         "regenerator": true
       }],
+      path.join(__dirname, 'markdown/transform'),
       [modulePath('babel-plugin-module-resolver'), {
-        root: ['.'],
+        root: [
+          config.src //'.'
+        ],
         alias: config.alias || {},
         ...(config.resolve || {})
       }]
@@ -36,6 +41,5 @@ export default function createBabelConfig(config = {}) {
     //babelrc: false // Load .babelrc manually..?
   }
 
-  //console.log(JSON.stringify(babelConfig, null, 2))
   return babelConfig
 }

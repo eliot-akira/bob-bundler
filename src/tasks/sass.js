@@ -8,7 +8,10 @@ import autoprefixer from 'gulp-autoprefixer'
 import $if from 'gulp-if'
 import fileExists from '../utils/fileExists'
 
-export default function sassTask({ src, dest, root, dev = false, log, relative }) {
+export default function sassTask({
+  src, dest, root, dev = false,
+  log, relative, chalk
+}) {
 
   const rootSrc = path.join(root, 'src')
   const destDir = path.dirname(dest)
@@ -29,7 +32,7 @@ export default function sassTask({ src, dest, root, dev = false, log, relative }
         keepSpecialComments: false,
         // Resolve require paths for client source
         includePaths: [rootSrc],
-        //relativeTo: './app',
+        //relativeTo: root, //'./app',
         processImport: false // ?
       }))
       .on('error', function(e) {
@@ -43,7 +46,7 @@ export default function sassTask({ src, dest, root, dev = false, log, relative }
       .pipe($if(dev, sourcemaps.write()))
       .pipe(gulp.dest(destDir))
       .on('end', () => {
-        log('sass', `${relative(src)} -> ${relative(dest)}`)
+        log('sass', `${relative(src)} -> ${chalk.green(relative(dest))}`)
         resolve()
       })
   })

@@ -19,16 +19,15 @@ export default function getBundles({ root, log, options }) {
 
     const packages = glob.sync(globPath, {
       ignore: ['**/.git/**',
-        //'**/_*/**',
+        '**/_*/**',
         `**/node_modules/**`]
     })
 
     if (!packages.length && !options.sub) {
-      packages.push(thisPath)
+      packages.push(path.join(thisPath, 'package.json'))
     }
 
     packages.forEach(packagePath => {
-
       const root = path.dirname(packagePath)
       const bundle = {
         root,

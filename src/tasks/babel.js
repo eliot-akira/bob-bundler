@@ -3,11 +3,11 @@ import gulp from 'gulp'
 import babel from 'gulp-babel'
 import sourcemaps from 'gulp-sourcemaps'
 import $if from 'gulp-if'
-import createBabelConfig from '../createBabelConfig'
+import createBabelConfig from '../babel/config'
 
 export default function babelTask(config) {
 
-  const { src, dest, root, dev, log, relative, globalIgnore = [] } = config
+  const { src, dest, root, dev, log, relative, chalk, globalIgnore = [] } = config
 
   return new Promise((resolve, reject) => {
     gulp.src([`${src}/**/*.js`].concat(globalIgnore))
@@ -21,7 +21,7 @@ export default function babelTask(config) {
       .pipe($if(dev, sourcemaps.write()))
       .pipe(gulp.dest(dest))
       .on('end', () => {
-        log('babel', `${relative(src)} -> ${relative(dest)}`)
+        log('babel', `${relative(src)} -> ${chalk.green(relative(dest))}`)
         resolve()
       })
   })

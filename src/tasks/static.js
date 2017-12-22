@@ -1,3 +1,4 @@
+import path from 'path'
 import http from 'http'
 import nodeStatic from 'node-static'
 
@@ -7,11 +8,19 @@ export default function({ src, port = 3000, dev = false, log, relative, chalk })
 
   const staticServer = new nodeStatic.Server(src, {
     cache: !dev,
-    headers: dev ? { 'Cache-Control': 'no-cache,must-revalidate,max-age=0' } : {}
+    headers: dev ? {
+      'Cache-Control': 'no-cache,must-revalidate,max-age=0'
+    } : {}
   })
 
   http.createServer((req, res) => {
-    req.addListener('end', () => staticServer.serve(req, res)).resume()
+    req.addListener('end', () => {
+      staticServer.serve(req, res, (e) => {
+        if (e && (e.status === 404)) {
+          staticServer.serveFile('index.html', 200, {}, req, res)
+        }
+      })
+    }).resume()
   }).listen(port)
 
   log('static', `Serving at ${chalk.green('http://localhost:'+port)} from ${relative(src)}`)

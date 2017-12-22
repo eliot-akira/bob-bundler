@@ -10,7 +10,8 @@ const definedTasks = [
   'nodemon',
   'sass',
   'copy',
-  'static'
+  'static',
+  'reload'
 ]
 const noBuild = ['nodemon', 'static']
 
@@ -18,7 +19,9 @@ let tasks = {}
 
 export default function build(config) {
 
-  const { dev, log, relative, globalIgnore } = config
+  const { dev, log, relative, chalk, globalIgnore } = config
+
+  process.env.NODE_ENV = dev ? 'development' : 'production'
 
   const allBobs = getAllBobs(config)
 
@@ -37,14 +40,19 @@ export default function build(config) {
 
     if (!tasks[key]) tasks[key] = require(`../tasks/${key}`)
 
-    allBobs[key].forEach(bundle =>
-      allTasks.push(
-        tasks[key]({ ...bundle, dev, log, relative, globalIgnore })
+    allBobs[key].forEach(bundle => {
+      if (key!=='reload') allTasks.push(
+        tasks[key]({
+          ...bundle,
+          dev,
+          log, relative, chalk,
+          globalIgnore
+        })
       )
-    )
+    })
   })
 
   return Promise.all(allTasks)
     .then(() => ({ bob: allBobs, tasks }))
-    .catch(e => log.error(e))
+    //.catch(e => log.error(e))
 }

@@ -28,9 +28,14 @@ export default function list(config) {
   } else if (command==='add') {
 
     // ------------ Git add ------------
-
-    repos.forEach((repo, index) => {
-      log(`git add ${relative(repo)}`)
+    // Sort by length, to add sub repos first
+    repos.sort(function(a, b){
+      // ASC  -> a.length - b.length
+      // DESC -> b.length - a.length
+      return b.length - a.length;
+    })
+    .forEach((repo, index) => {
+      log(`git add ${relative(repo)}/`)
       spawnSync('git', ['add', `${repo}/`], { stdio: 'inherit' })
     })
 

@@ -13,7 +13,7 @@ export default function htmlTask(config) {
     dev,
     livereload = false,
     electron = false,
-    log, relative,
+    log, relative, chalk,
     globalIgnore = []
   } = config
 
@@ -45,7 +45,7 @@ export default function htmlTask(config) {
         //reject()
       })
       .on('end', () => {
-        log('html', `${relative(src)} -> ${relative(dest)}`)
+        log('html', `${relative(src)} -> ${chalk.green(relative(dest))}`)
         resolve()
       })
       .pipe(replace('</body>', `${script}</body>`))

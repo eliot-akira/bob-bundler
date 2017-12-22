@@ -11,7 +11,9 @@ export default function dev(config) {
     const { log, relative, chalk } = config
     const common = { log, relative, chalk }
 
-    let reloadServer, reload = () => {}, reloadCSS = () => {}
+    let reloadServer
+    let reload = () => {}
+    let reloadCSS = () => {}
 
     log.title('Watching..')
 
@@ -23,7 +25,7 @@ export default function dev(config) {
 
         // ------------ Each bundle ------------
 
-        if (bundle.watch) log('Watch', `${chalk.green(bundle.watch)} for ${chalk.blue(key)}`)
+        if (bundle.watch) log(key, chalk.green(bundle.watch))
 
         const watchConfig = {
           ...bundle, ...common, dev: true,
@@ -36,10 +38,12 @@ export default function dev(config) {
           reloadCSS = reloadServer.reloadCSS
         }
 
-        if (['browserify', 'html', 'sass'].indexOf(key) >= 0) {
+        if (['browserify', 'html', 'sass', 'reload'].indexOf(key) >= 0) {
+
+          if (!watchConfig.watch || watchConfig.watch==='false') return
 
           // Watch all files, compile from entry on change
-          watch(watchConfig.watch, () => {
+          watch([watchConfig.watch, ...config.globalIgnore], () => {
             tasks[key](watchConfig)
             .then(() => {
               if (!bundle.livereload) return
