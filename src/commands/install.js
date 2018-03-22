@@ -6,10 +6,9 @@ import getPackageJSON from '../utils/getPackageJSON'
 export default function install(config) {
 
   const { root, log, relative, yesno, question, uninstall = false } = config
+  const { options } = config
 
-  let { options } = config
-
-  options.sub = options.sub || true
+  options.sub = typeof options.sub!=='undefined' ? options.sub : true
   /*options.all = typeof options.all!=='undefined'
     ? options.all : !options.dev*/
 
@@ -68,9 +67,8 @@ export default function install(config) {
     if (!modules.length && !devModules.length) return
 
     installChoices.push( {
-      title: (b.json.description
-        ? `${chalk.green(b.json.description)}\n    ${relative(b.root)}`
-        : chalk.green(relative(b.root))
+      title: chalk.green(relative(b.root))+(
+        b.json.description ? ` - ${b.json.description}` : ''
       ),
       modules, devModules
     })

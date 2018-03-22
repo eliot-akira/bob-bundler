@@ -32,7 +32,7 @@ export default function list(config) {
     repos.sort(function(a, b){
       // ASC  -> a.length - b.length
       // DESC -> b.length - a.length
-      return b.length - a.length;
+      return b.length - a.length
     })
     .forEach((repo, index) => {
       log(`git add ${relative(repo)}/`)
