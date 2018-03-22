@@ -26,7 +26,8 @@ export default function createBabelConfig(config = {}) {
       //modulePath('babel-plugin-transform-runtime'),
       [modulePath("babel-plugin-transform-runtime"), {
         "polyfill": false,
-        "regenerator": true
+        "regenerator": true,
+        moduleName: modulePath('babel-runtime')
       }],
       path.join(__dirname, 'markdown/transform'),
       [modulePath('babel-plugin-module-resolver'), {
