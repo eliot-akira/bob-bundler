@@ -8,8 +8,10 @@ export default function help(config) {
 
   log.title('Commands')
 
-  log('bob dev', 'Build project and watch files for changes')
+  log('bob dev', '  Build project for development and watch files for changes')
   log('bob build', 'Build project for production')
+  log('bob serve', 'Build project and serve static files')
+  log('bob clean', 'Remove built files')
 
   log.title('Current project')
 

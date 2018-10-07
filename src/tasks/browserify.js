@@ -11,7 +11,7 @@ import fileExists from '../utils/fileExists'
 export default function browserifyTask(config) {
 
   const {
-    src, dest, root, dev = false,
+    src, dest, dev = false,
     log, relative, chalk
   } = config
 

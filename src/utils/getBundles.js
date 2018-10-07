@@ -3,9 +3,10 @@ import glob from 'glob'
 import fileExists from './fileExists'
 import getPackageJSON from './getPackageJSON'
 
-export default function getBundles({ root, log, options }) {
+export default function getBundles(config) {
 
-  let bundles = []
+  const { root, log, options } = config
+  const bundles = []
 
   const paths = [root]
 
@@ -31,7 +32,7 @@ export default function getBundles({ root, log, options }) {
       const root = path.dirname(packagePath)
       const bundle = {
         root,
-        json: getPackageJSON(root)
+        json: getPackageJSON(config)
       }
 
       bundles.push(bundle)

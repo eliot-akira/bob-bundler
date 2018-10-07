@@ -9,7 +9,7 @@ import createBabelConfig from '../babel/config'
 export default function babelWatch(config) {
 
   const {
-    src, dest, root, dev = false,
+    src, dest, dev = false,
     log, relative, chalk,
     globalIgnore = []
   } = config

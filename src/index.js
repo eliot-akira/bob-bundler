@@ -2,10 +2,12 @@ import getConfig from './utils/getConfig'
 
 const config = getConfig({
   commands: [
-    'build',
-    'clean',
     'dev',
+    'build',
+    'serve',
+    'clean',
     'help',
+
     // TODO: Document
     'list',
     'install',
@@ -18,7 +20,8 @@ const config = getConfig({
 const { command } = config
 
 try {
-  require(`./commands/${command}`)(config)  
+  const result = require(`./commands/${command}`)(config)
+  if (result && result.catch) result.catch(e => console.error(e))
 } catch (e) {
   console.error(e)
 }

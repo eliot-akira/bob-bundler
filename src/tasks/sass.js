@@ -9,11 +9,11 @@ import $if from 'gulp-if'
 import fileExists from '../utils/fileExists'
 
 export default function sassTask({
-  src, dest, root, dev = false,
+  src, dest, bundleRoot, dev = false,
   log, relative, chalk
 }) {
 
-  const rootSrc = path.join(root, 'src')
+  const rootSrc = path.join(bundleRoot, 'src')
   const destDir = path.dirname(dest)
   const destFile = path.basename(dest)
 

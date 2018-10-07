@@ -27,7 +27,6 @@ export default function getAllBobs(config) {
       ...bob
     } = bundle.json.bob
 
-
     bob = withDefaults(bob)
 
     if (bob.reload || (typeof bob.livereload === 'undefined'
@@ -47,7 +46,8 @@ export default function getAllBobs(config) {
         })
 
         // Root path to resolve requires for browserify, babel and sass
-        b.root = root
+        b.root = b.root || root
+        b.bundleRoot = root
         // Each bundle can set livereload off
         b.livereload = typeof b.livereload !== 'undefined'
           ? b.livereload

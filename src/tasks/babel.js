@@ -7,12 +7,12 @@ import createBabelConfig from '../babel/config'
 
 export default function babelTask(config) {
 
-  const { src, dest, root, dev, log, relative, chalk, globalIgnore = [] } = config
+  const { src, dest, dev, log, relative, chalk, globalIgnore = [] } = config
 
   return new Promise((resolve, reject) => {
     gulp.src([`${src}/**/*.js`].concat(globalIgnore))
       .pipe($if(dev, sourcemaps.init()))
-      .pipe(babel(createBabelConfig(config)))
+      .pipe(babel(createBabelConfig({ ...config, isServer: true })))
       .on('error', function(e) {
         log.error('babel', e.message)
         this.emit('end')

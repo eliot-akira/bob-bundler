@@ -24,16 +24,37 @@ export default function createBabelConfig(config = {}) {
       modulePath('babel-plugin-react-require'),
       modulePath('babel-plugin-add-module-exports'),
       //modulePath('babel-plugin-transform-runtime'),
-      [modulePath("babel-plugin-transform-runtime"), {
-        "polyfill": false,
-        "regenerator": true,
-        moduleName: modulePath('babel-runtime')
-      }],
+
+
+      // Async/await support
+
+      ...(config.isServer
+        ? [] // TODO: How to ignore async/await in Node version that supports it?
+        : [
+
+        // https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-runtime
+
+        // For standalone *client* libraries
+        // TODO: Use polyfill if building whole app
+
+          [modulePath("babel-plugin-transform-runtime"), {
+            helpers: false,
+            polyfill: false,
+            regenerator: true,
+            moduleName: modulePath('babel-runtime'),
+          // useESModules: true, // if with webpack
+          }],
+        ]),
+
       path.join(__dirname, 'markdown/transform'),
+
       [modulePath('babel-plugin-module-resolver'), {
-        root: [
-          config.src //'.'
-        ],
+        root: [ config.src, ...(
+          config.root
+            ? (Array.isArray(config.root) ? config.root : [config.root])
+              .map(f => path.join(config.src, path.relative(config.src, f)))
+            : []
+        )],
         alias: config.alias || {},
         ...(config.resolve || {})
       }]

@@ -2,8 +2,9 @@ import path from 'path'
 import fs from 'fs'
 import fileExists from './fileExists'
 
-export default function getPackageJSON(root) {
+export default function getPackageJSON(config) {
 
+  const { root } = config
   const packagePath = path.join(root, 'package.json')
   const bobConfigPath = path.join(root, 'bob.config.js')
 
@@ -17,10 +18,10 @@ export default function getPackageJSON(root) {
       }
     }
     if (fileExists(bobConfigPath)) {
-      json.bob = require(bobConfigPath)()
+      json.bob = require(bobConfigPath)(config)
     }
   } catch (e) {
-    //
+    console.log(e)
   }
   return json
 }
