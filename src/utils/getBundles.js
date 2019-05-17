@@ -32,7 +32,7 @@ export default function getBundles(config) {
       const root = path.dirname(packagePath)
       const bundle = {
         root,
-        json: getPackageJSON(config)
+        json: getPackageJSON({ root, ...config })
       }
 
       bundles.push(bundle)
