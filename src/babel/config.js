@@ -12,6 +12,24 @@ if (!fileExists(path.join(moduleDir, '@babel/preset-env'))) {
 
 export default function createBabelConfig(config = {}) {
 
+  const resolvePaths = {
+    extensions: ['.js', '.jsx', '.json', '.ts', '.tsx'],
+    root: [
+      moduleDir,
+      ...(
+        config.root
+          ? (Array.isArray(config.root) ? config.root : [config.root])
+            .map(f => path.join(config.bundleRoot, path.relative(config.bundleRoot, f)))
+          : []
+      ),
+      path.join(config.bundleRoot, 'node_modules')
+    ],
+    alias: {
+      ...(config.alias || {}),
+    },
+    ...(config.resolve || {})
+  }
+
   const babelConfig = {
     presets: [
       config.isServer
@@ -64,22 +82,7 @@ export default function createBabelConfig(config = {}) {
           ]
       ),
 
-      [require.resolve('babel-plugin-module-resolver'), {
-        root: [
-          config.src,
-          moduleDir,
-          ...(
-            config.root
-              ? (Array.isArray(config.root) ? config.root : [config.root])
-                .map(f => path.join(config.src, path.relative(config.src, f)))
-              : []
-          )
-        ],
-        alias: {
-          ...(config.alias || {}),
-        },
-        ...(config.resolve || {})
-      }]
+      [require.resolve('babel-plugin-module-resolver'), resolvePaths]
     ],
     //extends // Get from config?
     //babelrc: false
