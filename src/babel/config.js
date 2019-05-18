@@ -6,61 +6,83 @@ import fileExists from '../utils/fileExists'
 let moduleDir = path.join(__dirname, '../../node_modules')
 
 // Test if installed as devDependency
-if (!fileExists(path.join(moduleDir, 'babel-preset-es2015'))) {
+if (!fileExists(path.join(moduleDir, '@babel/preset-env'))) {
   moduleDir = path.join(__dirname, '../../..')
 }
 
-const modulePath = m => path.join(moduleDir, m)
-
 export default function createBabelConfig(config = {}) {
+
   const babelConfig = {
     presets: [
-      modulePath('babel-preset-es2015'),
-      modulePath('babel-preset-stage-0'),
-      modulePath('babel-preset-react'),
+      config.isServer
+        ? [ require.resolve('@babel/preset-env'),
+          { 'modules': 'commonjs',
+            'targets': { 'node': 'current' },
+          }
+        ]
+        : [ require.resolve('@babel/preset-env'),
+          { 'modules': 'commonjs',
+
+            // Allow config to bundle polyfills instead of relying on global
+
+            ...(config.includePolyfill ? {
+              useBuiltIns: 'usage', corejs: 3,
+            } : {}),
+
+            'targets': { 'browsers': [
+              'last 2 versions',
+              'ie >= 10'
+            ] }
+          }
+        ],
+      require.resolve('@babel/preset-react'),
+      require.resolve('@babel/preset-typescript'),
     ],
     plugins: [
-      modulePath('babel-plugin-transform-node-env-inline'),
-      modulePath('babel-plugin-react-require'),
-      modulePath('babel-plugin-add-module-exports'),
-      //modulePath('babel-plugin-transform-runtime'),
 
+      require.resolve('@babel/plugin-proposal-object-rest-spread'),
+      require.resolve('@babel/plugin-proposal-class-properties'),
+      require.resolve('@babel/plugin-proposal-export-default-from'),
+      require.resolve('@babel/plugin-syntax-dynamic-import'),
 
-      // Async/await support
+      require.resolve('babel-plugin-transform-node-env-inline'),
 
-      ...(config.isServer
-        ? [] // TODO: How to ignore async/await in Node version that supports it?
-        : [
+      require.resolve('@mna/builder/config/babel-plugin-react-require'),
+      require.resolve('babel-plugin-add-module-exports'),
 
-        // https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-runtime
+      require.resolve('@babel/plugin-transform-modules-commonjs'),
+      ...(
+        config.isServer ?
+          []
+          :
+          [
+            // https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-runtime
+            // [require.resolve('@babel/plugin-transform-runtime'), {
+            //   //corejs: 3,
+            //   corejs: false, helpers: true, regenerator: false//, useESModules: true,
+            // }]
+          ]
+      ),
 
-        // For standalone *client* libraries
-        // TODO: Use polyfill if building whole app
-
-          [modulePath("babel-plugin-transform-runtime"), {
-            helpers: false,
-            polyfill: false,
-            regenerator: true,
-            moduleName: modulePath('babel-runtime'),
-          // useESModules: true, // if with webpack
-          }],
-        ]),
-
-      path.join(__dirname, 'markdown/transform'),
-
-      [modulePath('babel-plugin-module-resolver'), {
-        root: [ config.src, ...(
-          config.root
-            ? (Array.isArray(config.root) ? config.root : [config.root])
-              .map(f => path.join(config.src, path.relative(config.src, f)))
-            : []
-        )],
-        alias: config.alias || {},
+      [require.resolve('babel-plugin-module-resolver'), {
+        root: [
+          config.src,
+          moduleDir,
+          ...(
+            config.root
+              ? (Array.isArray(config.root) ? config.root : [config.root])
+                .map(f => path.join(config.src, path.relative(config.src, f)))
+              : []
+          )
+        ],
+        alias: {
+          ...(config.alias || {}),
+        },
         ...(config.resolve || {})
       }]
     ],
-    //extends // <-- Get from config
-    //babelrc: false // Load .babelrc manually..?
+    //extends // Get from config?
+    //babelrc: false
   }
 
   return babelConfig

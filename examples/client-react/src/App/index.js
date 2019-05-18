@@ -6,7 +6,7 @@ export default class App extends Component {
 
     return (
       <div>
-        Hello from React
+        Hello from React.
       </div>
     )
   }

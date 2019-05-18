@@ -10,11 +10,14 @@
     "bob-bundler": "*"
   },
   "bob": {
-    "browserify": {
+    "browserify": [{
+      "src": "src/polyfill.js",
+      "dest": "build/polyfill.js"
+    }, {
       "src": "src/index.js",
       "dest": "build/app.js",
       "watch": "src/**/*.js"
-    },
+    }],
     "sass": {
       "src": "src/index.scss",
       "dest": "build/app.css",

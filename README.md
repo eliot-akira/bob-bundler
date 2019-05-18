@@ -67,7 +67,7 @@ Example configuration
   "static": {
     "src": "build/client",
     "port": "3001"
-  }  
+  }
 }
 ```
 
@@ -88,18 +88,3 @@ Run the example:
 ```bash
 npm install && npm start
 ```
-
-## Defaults
-
-The following are included by default.
-
-### Babel/browserify
-
-- Presets: `es2015` and `stage-0`
-- Plugins
-  - `add-module-exports` - support direct `require` from `export default`
-  - `transform-runtime` - async/await support
-
-### Sass
-
-- Autoprefixer - Last two browser versions

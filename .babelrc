@@ -1,7 +1,11 @@
 {
   "presets": [
-    "es2015",
-    "stage-0"
+    ["@babel/preset-env", {
+      "modules": "commonjs",
+      "targets": {
+        "node": "current"
+      }
+    }]
   ],
   "plugins": [
     "add-module-exports"

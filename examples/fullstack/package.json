@@ -13,11 +13,14 @@
     "bob-bundler": "*"
   },
   "bob": {
-    "browserify": {
+    "browserify": [{
+      "src": "src/client/polyfill.js",
+      "dest": "build/client/polyfill.js"
+    }, {
       "src": "src/client/index.js",
       "dest": "build/client/app.js",
       "watch": "src/client/**/*.js"
-    },
+    }],
     "sass": {
       "src": "src/client/index.scss",
       "dest": "build/client/app.css",

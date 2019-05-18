@@ -1,7 +1,7 @@
 let through = require('through2')
 let path = require('path')
 let EJT = require('./ejt')
-let marked = require('marked')
+//let marked = require('marked')
 
 module.exports = function (arg) {
 
@@ -12,7 +12,7 @@ module.exports = function (arg) {
 
   options.ext = options.ext || '.html'
   options.include = {
-    '.md': marked
+    //'.md': marked
   }
 
   let ejt = new EJT(options)

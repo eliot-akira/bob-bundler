@@ -7,19 +7,20 @@
     "build": "bob build"
   },
   "dependencies": {
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
-    "babel-preset-react": "^6.16.0",
-    "bob-bundler": "*"
   },
   "bob": {
-    "browserify": {
+    "browserify": [{
+      "src": "src/polyfill.js",
+      "dest": "build/polyfill.js"
+    }, {
       "src": "src/index.js",
       "dest": "build/app.js",
       "watch": "src/**/*.js"
-    },
+    }],
     "sass": {
       "src": "src/index.scss",
       "dest": "build/app.css",

@@ -24,6 +24,7 @@ export default function getAllBobs(config) {
     // Live reload default
     let {
       livereload = false,
+      includePolyfill = false,
       ...bob
     } = bundle.json.bob
 
@@ -52,6 +53,11 @@ export default function getAllBobs(config) {
         b.livereload = typeof b.livereload !== 'undefined'
           ? b.livereload
           : livereload
+        if (task==='browserify' || task==='babel') {
+          b.includePolyfill = typeof b.includePolyfill !== 'undefined'
+            ? b.includePolyfill
+            : includePolyfill
+        }
         bobWithRelativePaths.push(b)
       })
 

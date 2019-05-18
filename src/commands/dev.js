@@ -19,11 +19,11 @@ export default function dev(config) {
 
       Object.keys(bob).forEach(key => {
 
-      // ------------ Each task ------------
+        // ------------ Each task ------------
 
         bob[key].forEach(bundle => {
 
-        // ------------ Each bundle ------------
+          // ------------ Each bundle ------------
 
           if (bundle.watch) log(key, chalk.green(bundle.watch))
 
@@ -58,12 +58,12 @@ export default function dev(config) {
 
           } else if (key==='babel') {
 
-          // Watch all files, compile each changed file
+            // Watch all files, compile each changed file
             require('../tasks/babelWatch')(watchConfig)
 
           } else if (key==='copy') {
 
-          // Watch all files, copy each changed file
+            // Watch all files, copy each changed file
             require('../tasks/copyWatch')(watchConfig)
 
           } else if (['nodemon', 'static'].indexOf(key) >= 0) {

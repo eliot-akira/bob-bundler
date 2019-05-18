@@ -19,6 +19,8 @@ export default function browserifyTask(config) {
   const destDir = path.dirname(dest)
   const destFile = path.basename(dest)
 
+  const extensions = ['.js', '.jsx', '.json', '.ts', '.tsx']
+
   if (!fileExists(src)) {
     log.error('browserify', `File doesn't exist: ${src}`)
     return Promise.resolve()
@@ -31,9 +33,13 @@ export default function browserifyTask(config) {
       allowEmpty: true
     })
       .pipe(browserify({
+        extensions,
         debug: dev, // Source maps
         transform: [
-          babelify.configure(createBabelConfig(config))
+          babelify.configure({
+            extensions,
+            ...createBabelConfig(config)
+          })
         ],
         // Resolve require paths for client source
         // For server-side babel, define NODE_PATH

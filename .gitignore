@@ -4,4 +4,3 @@ _*
 *.log
 *.lock
 package-lock.json
-.hardlinks
