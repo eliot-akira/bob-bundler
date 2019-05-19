@@ -74,11 +74,11 @@ export default function createBabelConfig(config = {}) {
           []
           :
           [
-            // https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-runtime
-            // [require.resolve('@babel/plugin-transform-runtime'), {
-            //   //corejs: 3,
-            //   corejs: false, helpers: true, regenerator: false//, useESModules: true,
-            // }]
+            //https://github.com/babel/babel/tree/master/packages/babel-plugin-transform-runtime
+            [require.resolve('@babel/plugin-transform-runtime'), {
+              //corejs: 3,
+              corejs: false, helpers: true, regenerator: true//, useESModules: true,
+            }]
           ]
       ),
 
