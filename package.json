@@ -1,6 +1,6 @@
 {
   "name": "bob-bundler",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Bundle HTML, CSS, JS with optional server and live reload",
   "main": "./build/index.js",
   "bin": {
@@ -17,6 +17,7 @@
     "@babel/runtime": "^7.4.4",
     "@mna/builder": "1.x",
     "babel-plugin-add-module-exports": "^1.0.2",
+    "babel-plugin-inline-json-import": "^0.3.2",
     "babel-plugin-transform-node-env-inline": "^0.4.3",
     "babelify": "^10.0.0",
     "gulp": "^4.0.2",
@@ -38,7 +39,6 @@
     "ws": "^7.0.0"
   },
   "devDependencies": {
-    "babel-plugin-inline-json-import": "^0.3.2"
   },
   "author": "Eliot Akira",
   "repository": {
