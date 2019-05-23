@@ -38,6 +38,7 @@
     "ws": "^7.0.0"
   },
   "devDependencies": {
+    "babel-plugin-inline-json-import": "^0.3.2"
   },
   "author": "Eliot Akira",
   "repository": {

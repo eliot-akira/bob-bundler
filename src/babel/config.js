@@ -67,6 +67,7 @@ export default function createBabelConfig(config = {}) {
 
       require.resolve('@mna/builder/config/babel-plugin-react-require'),
       require.resolve('babel-plugin-add-module-exports'),
+      require.resolve('babel-plugin-inline-json-import'),
 
       require.resolve('@babel/plugin-transform-modules-commonjs'),
       ...(
