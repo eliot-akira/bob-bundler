@@ -3,11 +3,11 @@ import path from 'path'
 import fileExists from '../utils/fileExists'
 
 // Installed inside, i.e., via npm link
-let moduleDir = path.join(__dirname, '../../node_modules')
+let moduleDir = path.resolve(__dirname, '../../node_modules')
 
 // Test if installed as devDependency
 if (!fileExists(path.join(moduleDir, '@babel/preset-env'))) {
-  moduleDir = path.join(__dirname, '../../..')
+  moduleDir = path.resolve(__dirname, '../../..')
 }
 
 export default function createBabelConfig(config = {}) {
@@ -25,6 +25,7 @@ export default function createBabelConfig(config = {}) {
       path.join(config.bundleRoot, 'node_modules')
     ],
     alias: {
+      //'@babel/runtime': path.join(moduleDir, '@babel/runtime'),
       ...(config.alias || {}),
     },
     ...(config.resolve || {})
